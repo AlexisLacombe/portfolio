@@ -1,32 +1,814 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Portfolio - Menu Déroulant</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portfolio SI Alexis Lacombe</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-1: #0f0620;
+      --bg-2: #0b1b2b;
+      --accent: #7c5cff;
+      --accent-2: #00d2ff;
+      --success: #00d9a3;
+      --warning: #ffb648;
+      --card-bg: rgba(255,255,255,0.03);
+      --text: #e9eef8;
+      --muted: #98a0b3;
+      --radius: 14px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color:var(--text);
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(124,92,255,0.12), transparent 8%),
+                  radial-gradient(1000px 500px at 95% 90%, rgba(0,210,255,0.06), transparent 6%),
+                  linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+      -webkit-font-smoothing:antialiased;
+      padding:36px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+    }
+
+    .container{
+      max-width:1200px;
+      width:100%;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:32px;
+      padding:24px;
+      background:rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.04);
+      border-radius:var(--radius);
+      backdrop-filter:blur(8px);
+    }
+
+    .brand{
+      display:flex;
+      gap:16px;
+      align-items:center;
+    }
+
+    .logo{
+      width:64px;
+      height:64px;
+      border-radius:12px;
+      background: linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      font-weight:700;
+      font-size:24px;
+      font-family: "Montserrat", sans-serif;
+      box-shadow: 0 6px 24px rgba(124,92,255,0.2);
+    }
+
+    h1{
+      margin:0 0 4px 0;
+      font-size:24px;
+      letter-spacing:0.2px;
+    }
+
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .stats{
+      display:flex;
+      gap:20px;
+      align-items:center;
+    }
+
+    .stat{
+      text-align:center;
+    }
+
+    .stat-value{
+      font-size:20px;
+      font-weight:700;
+      color:var(--accent-2);
+      display:block;
+    }
+
+    .stat-label{
+      font-size:11px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap:24px;
+    }
+
+    @media (max-width:768px){
+      .grid{grid-template-columns: 1fr}
+      body{padding:20px}
+      header{flex-direction:column; text-align:center}
+      .stats{justify-content:center}
+    }
+
+    .card{
+      border-radius:var(--radius);
+      overflow:hidden;
+      position:relative;
+      box-shadow: 0 6px 30px rgba(2,6,23,0.55);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.05);
+      backdrop-filter: blur(6px);
+      transition:transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s ease;
+    }
+
+    .card:hover{
+      transform: translateY(-6px);
+      box-shadow: 0 18px 60px rgba(12,10,30,0.7);
+    }
+
+    .card-header{
+      padding:20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom:1px solid rgba(255,255,255,0.04);
+      background:rgba(255,255,255,0.01);
+    }
+
+    .card-title{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .rubrique-number{
+      width:36px;
+      height:36px;
+      border-radius:8px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      font-size:16px;
+      flex-shrink:0;
+    }
+
+    .card-title h3{
+      margin:0;
+      font-size:17px;
+      font-weight:600;
+    }
+
+    .status-badge{
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:600;
+      text-transform:uppercase;
+      letter-spacing:0.3px;
+    }
+
+    .status-complete{
+      background:rgba(0,217,163,0.15);
+      color:var(--success);
+      border:1px solid rgba(0,217,163,0.2);
+    }
+
+    .status-progress{
+      background:rgba(255,182,72,0.15);
+      color:var(--warning);
+      border:1px solid rgba(255,182,72,0.2);
+    }
+
+    .card-body{
+      padding:20px;
+    }
+
+    .competence{
+      background:rgba(124,92,255,0.06);
+      border:1px solid rgba(124,92,255,0.12);
+      border-radius:8px;
+      padding:12px;
+      margin-bottom:16px;
+    }
+
+    .competence-title{
+      font-size:12px;
+      color:var(--accent-2);
+      font-weight:600;
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+      margin:0 0 6px 0;
+    }
+
+    .competence-text{
+      font-size:13px;
+      color:var(--text);
+      margin:0;
+      line-height:1.5;
+    }
+
+    .criteres{
+      background:rgba(0,210,255,0.04);
+      border:1px solid rgba(0,210,255,0.08);
+      border-radius:8px;
+      padding:12px;
+      margin-bottom:16px;
+    }
+
+    .criteres-title{
+      font-size:12px;
+      color:var(--accent-2);
+      font-weight:600;
+      margin:0 0 6px 0;
+    }
+
+    .criteres-text{
+      font-size:13px;
+      color:var(--muted);
+      margin:0;
+      line-height:1.5;
+    }
+
+    .card-footer{
+      padding:16px 20px;
+      border-top:1px solid rgba(255,255,255,0.04);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+
+    .btn{
+      font-size:13px;
+      padding:10px 20px;
+      border-radius:10px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:#04101a;
+      font-weight:600;
+      text-decoration:none;
+      box-shadow: 0 6px 18px rgba(124,92,255,0.12);
+      cursor:pointer;
+      transition:all 0.2s ease;
+      border:none;
+      display:inline-block;
+    }
+
+    .btn:hover{
+      transform:scale(1.05);
+      box-shadow: 0 8px 24px rgba(124,92,255,0.24);
+    }
+
+    .file-count{
+      color:var(--muted);
+      font-size:13px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .file-count-number{
+      color:var(--accent-2);
+      font-weight:600;
+    }
+
+    /* Modal */
+    .modal-overlay{
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.88);
+      backdrop-filter:blur(10px);
+      z-index:1000;
+      animation:fadeIn 0.3s ease;
+    }
+
+    .modal-overlay.active{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+
+    @keyframes fadeIn{
+      from{opacity:0}
+      to{opacity:1}
+    }
+
+    .modal{
+      background: linear-gradient(180deg, rgba(15,6,32,0.98), rgba(11,27,43,0.98));
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:16px;
+      max-width:800px;
+      width:100%;
+      max-height:90vh;
+      overflow:auto;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.7);
+      animation:slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp{
+      from{transform:translateY(30px); opacity:0}
+      to{transform:translateY(0); opacity:1}
+    }
+
+    .modal-header{
+      padding:24px 28px;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:rgba(124,92,255,0.04);
+    }
+
+    .modal-header h2{
+      margin:0;
+      font-size:20px;
+      font-weight:600;
+    }
+
+    .close-btn{
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.08);
+      color:var(--text);
+      width:36px;
+      height:36px;
+      border-radius:8px;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:24px;
+      transition:all 0.2s ease;
+    }
+
+    .close-btn:hover{
+      background:rgba(255,255,255,0.1);
+      transform:scale(1.1);
+    }
+
+    .modal-body{
+      padding:28px;
+    }
+
+    .file-list{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .file-item{
+      background:rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.05);
+      border-radius:10px;
+      padding:16px;
+      display:flex;
+      align-items:center;
+      gap:14px;
+      transition:all 0.2s ease;
+      cursor:pointer;
+    }
+
+    .file-item:hover{
+      background:rgba(255,255,255,0.04);
+      border-color:rgba(124,92,255,0.3);
+      transform:translateX(6px);
+    }
+
+    .file-icon{
+      width:42px;
+      height:42px;
+      border-radius:10px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:18px;
+      flex-shrink:0;
+    }
+
+    .file-info{
+      flex:1;
+    }
+
+    .file-name{
+      font-weight:600;
+      font-size:14px;
+      margin:0 0 4px 0;
+      color:var(--text);
+    }
+
+    .file-desc{
+      color:var(--muted);
+      font-size:12px;
+      margin:0;
+    }
+
+    .section-desc{
+      background:rgba(124,92,255,0.08);
+      border:1px solid rgba(124,92,255,0.15);
+      border-radius:12px;
+      padding:18px;
+      margin-bottom:24px;
+    }
+
+    .section-desc p{
+      margin:0;
+      font-size:14px;
+      line-height:1.7;
+      color:var(--text);
+    }
+
+    .upload-zone{
+      border:2px dashed rgba(124,92,255,0.3);
+      border-radius:12px;
+      padding:32px;
+      text-align:center;
+      background:rgba(124,92,255,0.03);
+      margin-top:20px;
+      transition:all 0.3s ease;
+    }
+
+    .upload-zone:hover{
+      border-color:rgba(124,92,255,0.5);
+      background:rgba(124,92,255,0.06);
+    }
+
+    .upload-icon{
+      font-size:48px;
+      margin-bottom:12px;
+    }
+
+    .upload-text{
+      color:var(--muted);
+      font-size:14px;
+      margin:0;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">P</div>
+        <div>
+          <h1>Mon Portfolio Académique</h1>
+          <p class="subtitle">Système d'Information - Année 2024/2025</p>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-value">7</span>
+          <span class="stat-label">Rubriques</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">85%</span>
+          <span class="stat-label">Complété</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">42</span>
+          <span class="stat-label">Documents</span>
+        </div>
+      </div>
+    </header>
 
-  <nav class="navbar">
-    <ul>
-      <li><a href="#">Accueil</a></li>
-      <li class="dropdown">
-        <a href="#">Projets ▼</a>
-        <ul class="submenu">
-          <li><a href="#">Site Web</a></li>
-          <li><a href="#">Data/IA</a></li>
-          <li><a href="#">Autres</a></li>
-        </ul>
-      </li>
-      <li><a href="#">Compétences</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-  </nav>
+    <main>
+      <section class="grid">
+<?php
+$files = glob("fichiers/*"); // récupère tous les fichiers du dossier "fichiers"
+$fileCount = count($files);
+?>
 
-  <section class="content">
-    <h1>Bienvenue sur mon portfolio</h1>
-    <p>Découvrez mes projets, compétences et contacts via le menu.</p>
-  </section>
+<!-- Rubrique 1 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">
+      <div class="rubrique-number">1</div>
+      <h3>Travaux Demandés</h3>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="competence">
+      <p class="competence-title">Compétence visée</p>
+      <p class="competence-text">Gérer et organiser ses productions académiques.</p>
+    </div>
+    <div class="criteres">
+      <p class="criteres-title">Critères de réussite</p>
+      <p class="criteres-text">Tous les travaux demandés sont déposés, complets et correctement nommés.</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="file-count">
+      <span class="file-count-number"><?= $fileCount ?></span> fichiers déposés
+    </div>
+    <a href="fichiers/" class="btn" target="_blank">Consulter</a>
+  </div>
+</div>
 
-</body>
-</html>
+
+
+        <!-- Rubrique 2 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <div class="rubrique-number">2</div>
+              <h3>Notes de Cours</h3>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="competence">
+              <p class="competence-title">Compétence visée</p>
+              <p class="competence-text">Développer une autonomie dans la prise de notes et la gestion des ressources personnelles.</p>
+            </div>
+            <div class="criteres">
+              <p class="criteres-title">Critères de réussite</p>
+              <p class="criteres-text">Les notes de cours sont claires, structurées et accessibles.</p>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="file-count">
+              <span class="file-count-number">8</span> fichiers de notes
+            </div>
+            <button class="btn" onclick="openModal('modal2')">Consulter</button>
+          </div>
+        </div>
+
+        <!-- Rubrique 3 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <div class="rubrique-number">3</div>
+              <h3>Documents SI</h3>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="competence">
+              <p class="competence-title">Compétence visée</p>
+              <p class="competence-text">Identifier, rédiger et organiser des documents liés à un système d'information.</p>
+            </div>
+            <div class="criteres">
+              <p class="criteres-title">Critères de réussite</p>
+              <p class="criteres-text">Les documents sont rédigés, classés et bien présentés.</p>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="file-count">
+              <span class="file-count-number">6</span> documents
+            </div>
+            <button class="btn" onclick="openModal('modal3')">Consulter</button>
+          </div>
+        </div>
+
+        <!-- Rubrique 4 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <div class="rubrique-number">4</div>
+              <h3>Certifications</h3>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="competence">
+              <p class="competence-title">Compétence visée</p>
+              <p class="competence-text">Valoriser quelques compétences par des attestations ou certifications obtenues.</p>
+            </div>
+            <div class="criteres">
+              <p class="criteres-title">Critères de réussite</p>
+              <p class="criteres-text">Les certificats sont déposés en format lisible (PDF ou image) et correctement identifiés.</p>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="file-count">
+              <span class="file-count-number">3</span> certifications
+            </div>
+            <button class="btn" onclick="openModal('modal4')">Consulter</button>
+          </div>
+        </div>
+
+        <!-- Rubrique 5 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <div class="rubrique-number">5</div>
+              <h3>Projet Final</h3>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="competence">
+              <p class="competence-title">Compétence visée</p>
+              <p class="competence-text">Concevoir et réaliser un projet numérique intégrant les compétences acquises.</p>
+            </div>
+            <div class="criteres">
+              <p class="criteres-title">Critères de réussite</p>
+              <p class="criteres-text">Le projet est réalisé, documenté et présenté de manière professionnelle.</p>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="file-count">
+              <span class="file-count-number">5</span> livrables
+            </div>
+            <button class="btn" onclick="openModal('modal5')">Consulter</button>
+          </div>
+        </div>
+
+        <!-- Rubrique 6 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <div class="rubrique-number">6</div>
+              <h3>Diaporama Soutenance</h3>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="competence">
+              <p class="competence-title">Compétence visée</p>
+              <p class="competence-text">Synthétiser et présenter un projet de manière claire et professionnelle.</p>
+            </div>
+            <div class="criteres">
+              <p class="criteres-title">Critères de réussite</p>
+              <p class="criteres-text">Le diaporama est structuré, visuellement lisible et adapté à une présentation orale.</p>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="file-count">
+              <span class="file-count-number">2</span> présentations
+            </div>
+            <button class="btn" onclick="openModal('modal6')">Consulter</button>
+          </div>
+        </div>
+
+        <!-- Rubrique 7 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <div class="rubrique-number">7</div>
+              <h3>Autres Ressources</h3>
+            </div>
+            <span class="status-badge status-complete">Complet</span>
+          </div>
+          <div class="card-body">
+            <div class="competence">
+              <p class="competence-title">Compétence visée</p>
+              <p class="competence-text">Développer une capacité de veille et d'enrichissement personnel par des ressources complémentaires.</p>
+            </div>
+            <div class="criteres">
+              <p class="criteres-title">Critères de réussite</p>
+              <p class="criteres-text">Les ressources ajoutées sont pertinentes, variées et correctement référencées.</p>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="file-count">
+              <span class="file-count-number">6</span> ressources
+            </div>
+            <button class="btn" onclick="openModal('modal7')">Consulter</button>
+          </div>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal 1 : Travaux Demandés -->
+  <div class="modal-overlay" id="modal1" onclick="closeModalOutside(event, 'modal1')">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2>📚 Rubrique 1 : Travaux Demandés</h2>
+        <button class="close-btn" onclick="closeModal('modal1')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="section-desc">
+          <p><strong>Consigne :</strong> Déposer tous les dossiers réalisés en classe avec une nomenclature claire et cohérente.</p>
+        </div>
+        <div class="file-list">
+          <div class="file-item">
+            <div class="file-icon">📁</div>
+            <div class="file-info">
+              <p class="file-name">TD1_Introduction_Python/</p>
+              <p class="file-desc">Exercices fondamentaux Python - Variables, boucles, fonctions</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📁</div>
+            <div class="file-info">
+              <p class="file-name">TD2_Structures_Donnees/</p>
+              <p class="file-desc">Listes, dictionnaires, tuples et ensembles</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📁</div>
+            <div class="file-info">
+              <p class="file-name">TD3_POO/</p>
+              <p class="file-desc">Programmation Orientée Objet - Classes et objets</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📁</div>
+            <div class="file-info">
+              <p class="file-name">TD4_Fichiers_CSV/</p>
+              <p class="file-desc">Manipulation de fichiers et traitement de données</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📁</div>
+            <div class="file-info">
+              <p class="file-name">TD5_Analyse_Donnees/</p>
+              <p class="file-desc">Pandas et NumPy - Analyse statistique</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📁</div>
+            <div class="file-info">
+              <p class="file-name">TD6_Visualisation/</p>
+              <p class="file-desc">Matplotlib et Plotly - Graphiques et dashboards</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📁</div>
+            <div class="file-info">
+              <p class="file-name">TD7_Web_Scraping/</p>
+              <p class="file-desc">BeautifulSoup - Extraction de données web</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📁</div>
+            <div class="file-info">
+              <p class="file-name">TD8_API_REST/</p>
+              <p class="file-desc">Consommation d'API et traitement JSON</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📁</div>
+            <div class="file-info">
+              <p class="file-name">TD9_Base_Donnees/</p>
+              <p class="file-desc">SQL - Requêtes et modélisation</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📁</div>
+            <div class="file-info">
+              <p class="file-name">TD10_Machine_Learning/</p>
+              <p class="file-desc">Introduction scikit-learn - Régression et classification</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📁</div>
+            <div class="file-info">
+              <p class="file-name">TD11_Flask_Web/</p>
+              <p class="file-desc">Développement web avec Flask</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📁</div>
+            <div class="file-info">
+              <p class="file-name">TD12_Tests_Unitaires/</p>
+              <p class="file-desc">pytest - Tests et validation de code</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2 : Notes de Cours -->
+  <div class="modal-overlay" id="modal2" onclick="closeModalOutside(event, 'modal2')">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2>📝 Rubrique 2 : Notes de Cours Individuel</h2>
+        <button class="close-btn" onclick="closeModal('modal2')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="section-desc">
+          <p><strong>Consigne :</strong> Organiser vos notes de cours de manière structurée avec des titres, sous-titres et exemples pratiques.</p>
+        </div>
+        <div class="file-list">
+          <div class="file-item">
+            <div class="file-icon">📓</div>
+            <div class="file-info">
+              <p class="file-name">Cours_1_Introduction_SI.pdf</p>
+              <p class="file-desc">Concepts fondamentaux des systèmes d'information</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📓</div>
+            <div class="file-info">
+              <p class="file-name">Cours_2_Architecture_SI.pdf</p>
+              <p class="file-desc">Architecture technique et organisationnelle</p>
+            </div>
+          </div>
+          <div
