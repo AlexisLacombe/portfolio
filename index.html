@@ -434,32 +434,6 @@
       line-height:1.7;
       color:var(--text);
     }
-
-    .upload-zone{
-      border:2px dashed rgba(124,92,255,0.3);
-      border-radius:12px;
-      padding:32px;
-      text-align:center;
-      background:rgba(124,92,255,0.03);
-      margin-top:20px;
-      transition:all 0.3s ease;
-    }
-
-    .upload-zone:hover{
-      border-color:rgba(124,92,255,0.5);
-      background:rgba(124,92,255,0.06);
-    }
-
-    .upload-icon{
-      font-size:48px;
-      margin-bottom:12px;
-    }
-
-    .upload-text{
-      color:var(--muted);
-      font-size:14px;
-      margin:0;
-    }
   </style>
 </head>
 <body>
@@ -490,38 +464,32 @@
 
     <main>
       <section class="grid">
-<?php
-$files = glob("fichiers/*"); // récupère tous les fichiers du dossier "fichiers"
-$fileCount = count($files);
-?>
 
-<!-- Rubrique 1 -->
-<div class="card">
-  <div class="card-header">
-    <div class="card-title">
-      <div class="rubrique-number">1</div>
-      <h3>Travaux Demandés</h3>
-    </div>
-  </div>
-  <div class="card-body">
-    <div class="competence">
-      <p class="competence-title">Compétence visée</p>
-      <p class="competence-text">Gérer et organiser ses productions académiques.</p>
-    </div>
-    <div class="criteres">
-      <p class="criteres-title">Critères de réussite</p>
-      <p class="criteres-text">Tous les travaux demandés sont déposés, complets et correctement nommés.</p>
-    </div>
-  </div>
-  <div class="card-footer">
-    <div class="file-count">
-      <span class="file-count-number"><?= $fileCount ?></span> fichiers déposés
-    </div>
-    <a href="fichiers/" class="btn" target="_blank">Consulter</a>
-  </div>
-</div>
-
-
+        <!-- Rubrique 1 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <div class="rubrique-number">1</div>
+              <h3>Travaux Demandés</h3>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="competence">
+              <p class="competence-title">Compétence visée</p>
+              <p class="competence-text">Gérer et organiser ses productions académiques.</p>
+            </div>
+            <div class="criteres">
+              <p class="criteres-title">Critères de réussite</p>
+              <p class="criteres-text">Tous les travaux demandés sont déposés, complets et correctement nommés.</p>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="file-count">
+              <span class="file-count-number">12</span> fichiers déposés
+            </div>
+            <a href="telecharger.html" class="btn">Consulter</a>
+          </div>
+        </div>
 
         <!-- Rubrique 2 -->
         <div class="card">
@@ -684,112 +652,11 @@ $fileCount = count($files);
     </main>
   </div>
 
-  <!-- Modal 1 : Travaux Demandés -->
-  <div class="modal-overlay" id="modal1" onclick="closeModalOutside(event, 'modal1')">
-    <div class="modal" onclick="event.stopPropagation()">
-      <div class="modal-header">
-        <h2>📚 Rubrique 1 : Travaux Demandés</h2>
-        <button class="close-btn" onclick="closeModal('modal1')">×</button>
-      </div>
-      <div class="modal-body">
-        <div class="section-desc">
-          <p><strong>Consigne :</strong> Déposer tous les dossiers réalisés en classe avec une nomenclature claire et cohérente.</p>
-        </div>
-        <div class="file-list">
-          <div class="file-item">
-            <div class="file-icon">📁</div>
-            <div class="file-info">
-              <p class="file-name">TD1_Introduction_Python/</p>
-              <p class="file-desc">Exercices fondamentaux Python - Variables, boucles, fonctions</p>
-            </div>
-          </div>
-          <div class="file-item">
-            <div class="file-icon">📁</div>
-            <div class="file-info">
-              <p class="file-name">TD2_Structures_Donnees/</p>
-              <p class="file-desc">Listes, dictionnaires, tuples et ensembles</p>
-            </div>
-          </div>
-          <div class="file-item">
-            <div class="file-icon">📁</div>
-            <div class="file-info">
-              <p class="file-name">TD3_POO/</p>
-              <p class="file-desc">Programmation Orientée Objet - Classes et objets</p>
-            </div>
-          </div>
-          <div class="file-item">
-            <div class="file-icon">📁</div>
-            <div class="file-info">
-              <p class="file-name">TD4_Fichiers_CSV/</p>
-              <p class="file-desc">Manipulation de fichiers et traitement de données</p>
-            </div>
-          </div>
-          <div class="file-item">
-            <div class="file-icon">📁</div>
-            <div class="file-info">
-              <p class="file-name">TD5_Analyse_Donnees/</p>
-              <p class="file-desc">Pandas et NumPy - Analyse statistique</p>
-            </div>
-          </div>
-          <div class="file-item">
-            <div class="file-icon">📁</div>
-            <div class="file-info">
-              <p class="file-name">TD6_Visualisation/</p>
-              <p class="file-desc">Matplotlib et Plotly - Graphiques et dashboards</p>
-            </div>
-          </div>
-          <div class="file-item">
-            <div class="file-icon">📁</div>
-            <div class="file-info">
-              <p class="file-name">TD7_Web_Scraping/</p>
-              <p class="file-desc">BeautifulSoup - Extraction de données web</p>
-            </div>
-          </div>
-          <div class="file-item">
-            <div class="file-icon">📁</div>
-            <div class="file-info">
-              <p class="file-name">TD8_API_REST/</p>
-              <p class="file-desc">Consommation d'API et traitement JSON</p>
-            </div>
-          </div>
-          <div class="file-item">
-            <div class="file-icon">📁</div>
-            <div class="file-info">
-              <p class="file-name">TD9_Base_Donnees/</p>
-              <p class="file-desc">SQL - Requêtes et modélisation</p>
-            </div>
-          </div>
-          <div class="file-item">
-            <div class="file-icon">📁</div>
-            <div class="file-info">
-              <p class="file-name">TD10_Machine_Learning/</p>
-              <p class="file-desc">Introduction scikit-learn - Régression et classification</p>
-            </div>
-          </div>
-          <div class="file-item">
-            <div class="file-icon">📁</div>
-            <div class="file-info">
-              <p class="file-name">TD11_Flask_Web/</p>
-              <p class="file-desc">Développement web avec Flask</p>
-            </div>
-          </div>
-          <div class="file-item">
-            <div class="file-icon">📁</div>
-            <div class="file-info">
-              <p class="file-name">TD12_Tests_Unitaires/</p>
-              <p class="file-desc">pytest - Tests et validation de code</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Modal 2 : Notes de Cours -->
   <div class="modal-overlay" id="modal2" onclick="closeModalOutside(event, 'modal2')">
     <div class="modal" onclick="event.stopPropagation()">
       <div class="modal-header">
-        <h2>📝 Rubrique 2 : Notes de Cours Individuel</h2>
+        <h2>📝 Rubrique 2 : Notes de Cours</h2>
         <button class="close-btn" onclick="closeModal('modal2')">×</button>
       </div>
       <div class="modal-body">
@@ -811,4 +678,138 @@ $fileCount = count($files);
               <p class="file-desc">Architecture technique et organisationnelle</p>
             </div>
           </div>
-          <div
+          <div class="file-item">
+            <div class="file-icon">📓</div>
+            <div class="file-info">
+              <p class="file-name">Cours_3_Base_Donnees.pdf</p>
+              <p class="file-desc">Modélisation et gestion des bases de données</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📓</div>
+            <div class="file-info">
+              <p class="file-name">Cours_4_Reseaux.pdf</p>
+              <p class="file-desc">Réseaux informatiques et protocoles</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📓</div>
+            <div class="file-info">
+              <p class="file-name">Cours_5_Securite.pdf</p>
+              <p class="file-desc">Sécurité des systèmes d'information</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📓</div>
+            <div class="file-info">
+              <p class="file-name">Cours_6_Gestion_Projet.pdf</p>
+              <p class="file-desc">Méthodologies de gestion de projet</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📓</div>
+            <div class="file-info">
+              <p class="file-name">Cours_7_Cloud_Computing.pdf</p>
+              <p class="file-desc">Services cloud et virtualisation</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📓</div>
+            <div class="file-info">
+              <p class="file-name">Cours_8_IA_BigData.pdf</p>
+              <p class="file-desc">Intelligence artificielle et traitement des données</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3 : Documents SI -->
+  <div class="modal-overlay" id="modal3" onclick="closeModalOutside(event, 'modal3')">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2>📄 Rubrique 3 : Documents SI</h2>
+        <button class="close-btn" onclick="closeModal('modal3')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="section-desc">
+          <p><strong>Consigne :</strong> Créer et organiser les documents essentiels à la gestion d'un système d'information.</p>
+        </div>
+        <div class="file-list">
+          <div class="file-item">
+            <div class="file-icon">📋</div>
+            <div class="file-info">
+              <p class="file-name">Cahier_des_charges.pdf</p>
+              <p class="file-desc">Spécifications fonctionnelles et techniques</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">🗺️</div>
+            <div class="file-info">
+              <p class="file-name">Schema_Architecture.pdf</p>
+              <p class="file-desc">Diagrammes d'architecture système</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📊</div>
+            <div class="file-info">
+              <p class="file-name">MCD_MLD.pdf</p>
+              <p class="file-desc">Modèles conceptuel et logique de données</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">📖</div>
+            <div class="file-info">
+              <p class="file-name">Documentation_Technique.pdf</p>
+              <p class="file-desc">Guide technique du système</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">👤</div>
+            <div class="file-info">
+              <p class="file-name">Manuel_Utilisateur.pdf</p>
+              <p class="file-desc">Guide d'utilisation pour les utilisateurs finaux</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">🔒</div>
+            <div class="file-info">
+              <p class="file-name">Plan_Securite.pdf</p>
+              <p class="file-desc">Politique de sécurité et mesures de protection</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4 : Certifications -->
+  <div class="modal-overlay" id="modal4" onclick="closeModalOutside(event, 'modal4')">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2>🏆 Rubrique 4 : Certifications</h2>
+        <button class="close-btn" onclick="closeModal('modal4')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="section-desc">
+          <p><strong>Consigne :</strong> Rassembler les certifications et attestations validant vos compétences.</p>
+        </div>
+        <div class="file-list">
+          <div class="file-item">
+            <div class="file-icon">🎓</div>
+            <div class="file-info">
+              <p class="file-name">Certification_Python.pdf</p>
+              <p class="file-desc">Certification Python Programming - 2024</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">🎓</div>
+            <div class="file-info">
+              <p class="file-name">Certification_SQL.pdf</p>
+              <p class="file-desc">Certification SQL Database Management</p>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon">🎓</div>
+            <div class="
