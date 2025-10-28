@@ -287,11 +287,23 @@
 
         const container = document.getElementById('filesContainer');
 
+        // Afficher les infos de debug en console
+        console.log('Réponse du serveur:', data);
+
         if (!data.success || data.files.length === 0) {
+          let debugInfo = '';
+          if (data.debug) {
+            debugInfo = `<br><small style="color: var(--muted); font-size: 12px;">
+              Debug: ${data.message}<br>
+              Dossier: ${data.debug.folder_path || 'non trouvé'}<br>
+              Fichiers trouvés: ${data.debug.file_count || 0}
+            </small>`;
+          }
           container.innerHTML = `
             <div class="empty-state">
               <div class="empty-icon">📭</div>
               <p class="empty-text">Aucun fichier disponible pour le moment.</p>
+              ${debugInfo}
             </div>
           `;
           document.getElementById('fileCount').textContent = '0';
@@ -333,6 +345,10 @@
           <div class="empty-state">
             <div class="empty-icon">⚠️</div>
             <p class="empty-text">Erreur lors du chargement des fichiers.</p>
+            <small style="color: var(--muted); font-size: 12px;">
+              ${error.message}<br>
+              Vérifiez que get_files.php est bien présent à la racine du site.
+            </small>
           </div>
         `;
       }
