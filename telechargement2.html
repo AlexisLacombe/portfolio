@@ -229,7 +229,7 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>📁 Travaux Demandés</h1>
+      <h1>📁 Notes de Cours</h1>
       <a href="index.html" class="back-btn">← Retour au portfolio</a>
     </div>
 
@@ -245,11 +245,11 @@
     </div>
 
     <div class="files-grid" id="filesContainer">
-      <!-- Les fichiers seront chargés depuis files.js -->
+      <!-- Les fichiers seront chargés depuis files2.js -->
     </div>
   </div>
 
-  <script src="files.js"></script>
+  <script src="files2.js"></script>
   <script>
     // Fonction pour obtenir l'icône selon l'extension
     function getFileIcon(filename) {
@@ -287,7 +287,7 @@
     function displayFiles() {
       const container = document.getElementById('filesContainer');
       
-      // Vérifier si files.js existe et contient des données
+      // Vérifier si files2.js existe et contient des données
       if (typeof filesList === 'undefined' || !filesList || filesList.length === 0) {
         container.innerHTML = `
           <div class="empty-state">
@@ -295,7 +295,7 @@
             <p class="empty-text">Aucun fichier trouvé</p>
             <p class="empty-help">
               Pour afficher vos fichiers ici :<br>
-              1. Mettez vos fichiers dans le dossier <code>fichiers/</code><br>
+              1. Mettez vos fichiers dans le dossier <code>fichiers2/</code><br>
               2. Lancez le script <code>generate_files.py</code><br>
               3. Rafraîchissez cette page
             </p>
@@ -326,7 +326,7 @@
                 <span>📅 ${file.date}</span>
               </div>
             </div>
-            <a href="fichiers/${encodeURIComponent(file.name)}" class="download-btn" download>
+            <a href="fichiers2/${encodeURIComponent(file.name)}" class="download-btn" download>
               ⬇️ Télécharger
             </a>
           </div>

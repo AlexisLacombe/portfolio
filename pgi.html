@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PGI Simple</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .home-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 3px solid transparent;
+        }
+
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .module-card.stock { border-color: #3b82f6; }
+        .module-card.stock:hover { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; }
+        .module-card.vente { border-color: #10b981; }
+        .module-card.vente:hover { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; }
+        .module-card.achat { border-color: #f59e0b; }
+        .module-card.achat:hover { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; }
+        .module-card.rh { border-color: #8b5cf6; }
+        .module-card.rh:hover { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; }
+        .module-card.dashboard { border-color: #ec4899; }
+        .module-card.dashboard:hover { background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); color: white; }
+
+        .module-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .module-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .module-desc {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .content-box {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #666;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .badge-success { background: #d1fae5; color: #065f46; }
+        .badge-warning { background: #fef3c7; color: #92400e; }
+        .badge-danger { background: #fee2e2; color: #991b1b; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            background: #e5e7eb;
+            color: #333;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            color: #999;
+        }
+
+        .empty-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            background: #10b981;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 2000;
+        }
+
+        .alert.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">💼 PGI Simple</div>
+        <div>Gestion d'Entreprise</div>
+    </div>
+
+    <div class="container">
+        <div id="alert" class="alert"></div>
+
+        <!-- ACCUEIL -->
+        <div id="homePage" class="page active">
+            <h1 style="margin-bottom: 40px; font-size: 32px;">Tableau de bord</h1>
+            <div class="home-grid">
+                <div class="module-card dashboard" onclick="showPage('dashboardPage')">
+                    <div class="module-icon">📊</div>
+                    <h3 class="module-title">Dashboard</h3>
+                    <p class="module-desc">Vue d'ensemble</p>
+                </div>
+                <div class="module-card stock" onclick="showPage('stockPage')">
+                    <div class="module-icon">📦</div>
+                    <h3 class="module-title">Stocks</h3>
+                    <p class="module-desc">Gérer les produits</p>
+                </div>
+                <div class="module-card achat" onclick="showPage('achatPage')">
+                    <div class="module-icon">🛒</div>
+                    <h3 class="module-title">Achats</h3>
+                    <p class="module-desc">Gérer les achats</p>
+                </div>
+                <div class="module-card vente" onclick="showPage('ventePage')">
+                    <div class="module-icon">💰</div>
+                    <h3 class="module-title">Ventes</h3>
+                    <p class="module-desc">Gérer les ventes</p>
+                </div>
+                <div class="module-card rh" onclick="showPage('rhPage')">
+                    <div class="module-icon">👥</div>
+                    <h3 class="module-title">RH</h3>
+                    <p class="module-desc">Gérer les salariés</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- DASHBOARD -->
+        <div id="dashboardPage" class="page">
+            <div class="page-header">
+                <button class="back-btn" onclick="showPage('homePage')">← Retour</button>
+                <h2>📊 Dashboard</h2>
+                <div></div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #3b82f6;" id="dashStock">0</div>
+                    <div class="stat-label">Produits en stock</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #10b981;" id="dashVentes">0 €</div>
+                    <div class="stat-label">Total ventes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #f59e0b;" id="dashAchats">0 €</div>
+                    <div class="stat-label">Total achats</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #8b5cf6;" id="dashSalaries">0</div>
+                    <div class="stat-label">Salariés</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STOCKS -->
+        <div id="stockPage" class="page">
+            <div class="page-header">
+                <button class="back-btn" onclick="showPage('homePage')">← Retour</button>
+                <h2>📦 Stocks</h2>
+                <button class="add-btn" onclick="openModal('stockModal')">+ Ajouter</button>
+            </div>
+            <div class="content-box">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Référence</th>
+                            <th>Produit</th>
+                            <th>Quantité</th>
+                            <th>Prix</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stocksBody">
+                        <tr><td colspan="5"><div class="empty-state"><div class="empty-icon">📦</div><p>Aucun produit</p></div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ACHATS -->
+        <div id="achatPage" class="page">
+            <div class="page-header">
+                <button class="back-btn" onclick="showPage('homePage')">← Retour</button>
+                <h2>🛒 Achats</h2>
+                <button class="add-btn" onclick="openModal('achatModal')">+ Ajouter</button>
+            </div>
+            <div class="content-box">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Fournisseur</th>
+                            <th>Produit</th>
+                            <th>Quantité</th>
+                            <th>Total</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="achatsBody">
+                        <tr><td colspan="6"><div class="empty-state"><div class="empty-icon">🛒</div><p>Aucun achat</p></div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- VENTES -->
+        <div id="ventePage" class="page">
+            <div class="page-header">
+                <button class="back-btn" onclick="showPage('homePage')">← Retour</button>
+                <h2>💰 Ventes</h2>
+                <button class="add-btn" onclick="openModal('venteModal')">+ Ajouter</button>
+            </div>
+            <div class="content-box">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Client</th>
+                            <th>Produit</th>
+                            <th>Quantité</th>
+                            <th>Total</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ventesBody">
+                        <tr><td colspan="6"><div class="empty-state"><div class="empty-icon">💰</div><p>Aucune vente</p></div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- RH -->
+        <div id="rhPage" class="page">
+            <div class="page-header">
+                <button class="back-btn" onclick="showPage('homePage')">← Retour</button>
+                <h2>👥 RH</h2>
+                <button class="add-btn" onclick="openModal('rhModal')">+ Ajouter</button>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #8b5cf6;" id="totalSal">0</div>
+                    <div class="stat-label">Total salariés</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #10b981;" id="masseSal">0 €</div>
+                    <div class="stat-label">Masse salariale</div>
+                </div>
+            </div>
+            <div class="content-box">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Poste</th>
+                            <th>Salaire</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rhBody">
+                        <tr><td colspan="5"><div class="empty-state"><div class="empty-icon">👥</div><p>Aucun salarié</p></div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALS -->
+    <div id="stockModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Ajouter un produit</h3>
+            <form onsubmit="submitStock(event)">
+                <div class="form-group">
+                    <label class="form-label">Référence</label>
+                    <input type="text" class="form-input" id="stockRef" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nom</label>
+                    <input type="text" class="form-input" id="stockNom" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Quantité</label>
+                    <input type="number" class="form-input" id="stockQte" min="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Prix (€)</label>
+                    <input type="number" class="form-input" id="stockPrix" step="0.01" min="0" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('stockModal')">Annuler</button>
+                    <button type="submit" class="btn-primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="achatModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Ajouter un achat</h3>
+            <form onsubmit="submitAchat(event)">
+                <div class="form-group">
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-input" id="achatDate" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Fournisseur</label>
+                    <input type="text" class="form-input" id="achatFour" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Produit</label>
+                    <select class="form-input" id="achatProd" required></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Quantité</label>
+                    <input type="number" class="form-input" id="achatQte" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Prix unitaire (€)</label>
+                    <input type="number" class="form-input" id="achatPrix" step="0.01" min="0" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('achatModal')">Annuler</button>
+                    <button type="submit" class="btn-primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="venteModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Ajouter une vente</h3>
+            <form onsubmit="submitVente(event)">
+                <div class="form-group">
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-input" id="venteDate" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Client</label>
+                    <input type="text" class="form-input" id="venteClient" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Produit</label>
+                    <select class="form-input" id="venteProd" required onchange="updateStock()"></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Dispo: <span id="stockDispo">-</span></label>
+                    <input type="number" class="form-input" id="venteQte" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Prix unitaire (€)</label>
+                    <input type="number" class="form-input" id="ventePrix" step="0.01" min="0" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('venteModal')">Annuler</button>
+                    <button type="submit" class="btn-primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="rhModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Ajouter un salarié</h3>
+            <form onsubmit="submitRH(event)">
+                <div class="form-group">
+                    <label class="form-label">Nom</label>
+                    <input type="text" class="form-input" id="rhNom" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Prénom</label>
+                    <input type="text" class="form-input" id="rhPrenom" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Poste</label>
+                    <input type="text" class="form-input" id="rhPoste" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Salaire (€)</label>
+                    <input type="number" class="form-input" id="rhSalaire" step="0.01" min="0" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('rhModal')">Annuler</button>
+                    <button type="submit" class="btn-primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // BASE DE DONNÉES LOCALE (localStorage)
+        let stocks = JSON.parse(localStorage.getItem('stocks')) || [];
+        let achats = JSON.parse(localStorage.getItem('achats')) || [];
+        let ventes = JSON.parse(localStorage.getItem('ventes')) || [];
+        let salaries = JSON.parse(localStorage.getItem('salaries')) || [];
+
+        function saveData() {
+            localStorage.setItem('stocks', JSON.stringify(stocks));
+            localStorage.setItem('achats', JSON.stringify(achats));
+            localStorage.setItem('ventes', JSON.stringify(ventes));
+            localStorage.setItem('salaries', JSON.stringify(salaries));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('achatDate').value = today;
+            document.getElementById('venteDate').value = today;
+            renderAll();
+        });
+
+        function renderAll() {
+            renderStocks();
+            renderAchats();
+            renderVentes();
+            renderRH();
+            updateDashboard();
+        }
+
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            if (id === 'dashboardPage') updateDashboard();
+        }
+
+        function showAlert(msg) {
+            const alert = document.getElementById('alert');
+            alert.textContent = msg;
+            alert.classList.add('show');
+            setTimeout(() => alert.classList.remove('show'), 3000);
+        }
+
+        function openModal(id) {
+            if ((id === 'achatModal' || id === 'venteModal') && stocks.length === 0) {
+                showAlert('⚠️ Ajoutez d\'abord des produits !');
+                return;
+            }
+            if (id === 'achatModal' || id === 'venteModal') updateSelects();
+            document.getElementById(id).classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function updateSelects() {
+            const opts = stocks.map(s => `<option value="${s.id}">${s.nom} (${s.ref})</option>`).join('');
+            document.getElementById('achatProd').innerHTML = '<option value="">Sélectionner</option>' + opts;
+            document.getElementById('venteProd').innerHTML = '<option value="">Sélectionner</option>' + opts;
+        }
+
+        function updateStock() {
+            const id = parseInt(document.getElementById('venteProd').value);
+            const s = stocks.find(x => x.id === id);
+            document.getElementById('stockDispo').textContent = s ? s.qte : '-';
+        }
+
+        // STOCKS
+        function submitStock(e) {
+            e.preventDefault();
+            stocks.push({
+                id: Date.now(),
+                ref: document.getElementById('stockRef').value,
+                nom: document.getElementById('stockNom').value,
+                qte: parseInt(document.getElementById('stockQte').value),
+                prix: parseFloat(document.getElementById('stockPrix').value)
+            });
+            saveData();
+            renderStocks();
+            closeModal('stockModal');
+            e.target.reset();
+            showAlert('✅ Produit ajouté !');
+        }
+
+        function renderStocks() {
+            const tbody = document.getElementById('stocksBody');
+            if (!stocks.length) {
+                tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">📦</div><p>Aucun produit</p></div></td></tr>';
+                return;
+            }
+            tbody.innerHTML = stocks.map(s => `
+                <tr>
+                    <td>${s.ref}</td>
+                    <td>${s.nom}</td>
+                    <td><span class="badge ${s.qte === 0 ? 'badge-danger' : s.qte < 10 ? 'badge-warning' : 'badge-success'}">${s.qte}</span></td>
+                    <td>${s.prix.toFixed(2)} €</td>
+                    <td><button class="btn-delete" onclick="deleteStock(${s.id})">🗑️</button></td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteStock(id) {
+            if (confirm('Supprimer ce produit ?')) {
+                stocks = stocks.filter(s => s.id !== id);
+                saveData();
+                renderStocks();
+                showAlert('🗑️ Supprimé !');
+            }
+        }
+
+        // ACHATS
+        function submitAchat(e) {
+            e.preventDefault();
+            const prodId = parseInt(document.getElementById('achatProd').value);
+            const qte = parseInt(document.getElementById('achatQte').value);
+            const prix = parseFloat(document.getElementById('achatPrix').value);
+            const s = stocks.find(x => x.id === prodId);
+            
+            achats.push({
+                id: Date.now(),
+                date: document.getElementById('achatDate').value,
+                four: document.getElementById('achatFour').value,
+                prodNom: s.nom,
+                qte: qte,
+                total: qte * prix
+            });
+            
+            s.qte += qte;
+            saveData();
+            renderAchats();
+            renderStocks();
+            closeModal('achatModal');
+            e.target.reset();
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('achatDate').value = today;
+            showAlert('✅ Achat enregistré ! Stock mis à jour.');
+        }
+
+        function renderAchats() {
+            const tbody = document.getElementById('achatsBody');
+            if (!achats.length) {
+                tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">🛒</div><p>Aucun achat</p></div></td></tr>';
+                return;
+            }
+            tbody.innerHTML = achats.map(a => `
+                <tr>
+                    <td>${new Date(a.date).toLocaleDateString('fr-FR')}</td>
+                    <td>${a.four}</td>
+                    <td>${a.prodNom}</td>
+                    <td>${a.qte}</td>
+                    <td>${a.total.toFixed(2)} €</td>
+                    <td><button class="btn-delete" onclick="deleteAchat(${a.id})">🗑️</button></td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteAchat(id) {
+            if (confirm('Supprimer cet achat ?')) {
+                achats = achats.filter(a => a.id !== id);
+                saveData();
