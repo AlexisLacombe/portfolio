@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PGI Pro - Connexion</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #a78bfa;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light: #f1f5f9;
+            --bg: #f8fafc;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* PAGE DE CONNEXION */
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 24px;
+            padding: 50px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-logo-icon {
+            font-size: 64px;
+            margin-bottom: 15px;
+        }
+
+        .login-logo-text {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .login-subtitle {
+            color: var(--gray);
+            margin-bottom: 35px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--dark);
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--light);
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+        }
+
+        .demo-accounts {
+            margin-top: 30px;
+            padding: 20px;
+            background: var(--bg);
+            border-radius: 12px;
+        }
+
+        .demo-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gray);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .demo-account {
+            padding: 10px;
+            margin-bottom: 8px;
+            background: white;
+            border-radius: 8px;
+            font-size: 13px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .demo-account strong {
+            color: var(--primary);
+        }
+
+        /* SIDEBAR */
+        .app-layout {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .app-layout.active {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, #e0e7ff 0%, #e9d5ff 100%);
+            padding: 30px 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .user-info-sidebar {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .user-avatar-sidebar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin: 0 auto 10px;
+        }
+
+        .user-name-sidebar {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--dark);
+        }
+
+        .user-role-sidebar {
+            font-size: 12px;
+            color: var(--gray);
+            background: var(--light);
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            padding: 14px 20px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--gray);
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 14px 20px;
+            background: white;
+            border: none;
+            border-radius: 12px;
+            color: var(--danger);
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 40px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--dark);
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        /* CARDS GRID */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 28px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .icon-primary { background: linear-gradient(135deg, #818cf8, #6366f1); color: white; }
+        .icon-success { background: linear-gradient(135deg, #34d399, #10b981); color: white; }
+        .icon-warning { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: white; }
+        .icon-secondary { background: linear-gradient(135deg, #c084fc, #a78bfa); color: white; }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--gray);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .stat-change {
+            font-size: 13px;
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        /* MODULE CARDS */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .module-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .module-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .module-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+        }
+
+        .module-icon {
+            font-size: 56px;
+            margin-bottom: 18px;
+        }
+
+        .module-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 6px;
+        }
+
+        .module-desc {
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        /* TABLE */
+        .content-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--light);
+            color: var(--gray);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
+        .btn-danger:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 18px 14px 48px;
+            border: 2px solid var(--light);
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tbody tr {
+            background: var(--bg);
+            transition: all 0.2s;
+        }
+
+        tbody tr:hover {
+            background: var(--light);
+            transform: scale(1.01);
+        }
+
+        tbody td {
+            padding: 16px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        tbody td:first-child {
+            border-radius: 12px 0 0 12px;
+        }
+
+        tbody td:last-child {
+            border-radius: 0 12px 12px 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .badge-success { background: #d1fae5; color: #065f46; }
+        .badge-warning { background: #fef3c7; color: #92400e; }
+        .badge-danger { background: #fee2e2; color: #991b1b; }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 500px;
+            padding: 35px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: var(--dark);
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .modal-footer .btn {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .alert {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+            font-weight: 600;
+            display: none;
+            z-index: 2000;
+        }
+
+        .alert.show {
+            display: block;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.4;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @media (max-width: 968px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PAGE DE CONNEXION -->
+    <div id="loginPage" class="login-page">
+        <div class="login-container">
+            <div class="login-logo">
+                <div class="login-logo-icon">💼</div>
+                <div class="login-logo-text">PGI Pro</div>
+            </div>
+
+            <h2 class="login-title">Bienvenue</h2>
+            <p class="login-subtitle">Connectez-vous pour accéder à votre espace</p>
+
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Nom d'utilisateur</label>
+                    <input type="text" class="form-input" id="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Mot de passe</label>
+                    <input type="password" class="form-input" id="password" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Rôle</label>
+                    <select class="form-select" id="role" required>
+                        <option value="">-- Sélectionner --</option>
+                        <option value="admin">Administrateur</option>
+                        <option value="employe">Employé (Ventes)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-login">Se connecter</button>
+            </form>
+
+            <div class="demo-accounts">
+                <div class="demo-title">Comptes de démonstration</div>
+                <div class="demo-account">
+                    <strong>Admin:</strong> admin / admin123
+                </div>
+                <div class="demo-account">
+                    <strong>Employé:</strong> employe / emp123
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- APPLICATION -->
+    <div id="appLayout" class="app-layout">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo">📊 PGI PRO</div>
+            
+            <div class="user-info-sidebar">
+                <div class="user-avatar-sidebar" id="sidebarAvatar">👤</div>
+                <div class="user-name-sidebar" id="sidebarName">Utilisateur</div>
+                <div class="user-role-sidebar" id="sidebarRole">Role</div>
+            </div>
+
+            <ul class="nav-menu" id="navMenu">
+                <!-- Navigation dynamique selon le rôle -->
+            </ul>
+
+            <button class="logout-btn" onclick="logout()">🚪 Déconnexion</button>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <div id="alert" class="alert"></div>
+
+            <!-- HOME / OVERVIEW (Admin uniquement) -->
+            <div id="homePage" class="page active">
+                <div class="top-bar">
+                    <h1 class="page-title">Overview</h1>
+                    <div class="user-profile">
+                        <div class="user-avatar">👤</div>
+                        <div>
+                            <div class="user-name" id="topbarName">Utilisateur</div>
+                            <div class="user-role" id="topbarRole">Role</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-label">Produits</div>
+                            <div class="stat-icon icon-primary">📦</div>
+                        </div>
+                        <div class="stat-value" id="homeStock">0</div>
+                        <div class="stat-change">Stock total</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-label">Ventes</div>
+                            <div class="stat-icon icon-success">💰</div>
+                        </div>
+                        <div class="stat-value" id="homeVentes">0 €</div>
+                        <div class="stat-change">Total ventes</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-label">Achats</div>
+                            <div class="stat-icon icon-warning">🛒</div>
+                        </div>
+                        <div class="stat-value" id="homeAchats">0 €</div>
+                        <div class="stat-change">Total achats</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-label">Salariés</div>
+                            <div class="stat-icon icon-secondary">👥</div>
+                        </div>
+                        <div class="stat-value" id="homeSalaries">0</div>
+                        <div class="stat-change">Total employés</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 40px;">
+                    <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 20px;">Modules</h2>
+                    <div class="module-grid" id="moduleGrid">
+                        <!-- Modules dynamiques selon le rôle -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- STOCKS -->
+            <div id="stockPage" class="page">
+                <div class="top-bar">
+                    <h1 class="page-title">📦 Stocks</h1>
+                    <button class="btn btn-primary" onclick="openModal('stockModal')" id="btnAddStock">➕ Ajouter un produit</button>
+                </div>
+
+                <div class="content-card">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" class="search-input" placeholder="Rechercher un produit...">
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Référence</th>
+                                <th>Produit</th>
+                                <th>Quantité</th>
+                                <th>Prix</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stocksBody">
+                            <tr><td colspan="5"><div class="empty-state"><div class="empty-icon">📦</div><p>Aucun produit</p></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ACHATS (Admin uniquement) -->
+            <div id="achatPage" class="page">
+                <div class="top-bar">
+                    <h1 class="page-title">🛒 Achats</h1>
+                    <button class="btn btn-primary" onclick="openModal('achatModal')">➕ Ajouter un achat</button>
+                </div>
+
+                <div class="content-card">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" class="search-input" placeholder="Rechercher...">
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Fournisseur</th>
+                                <th>Produit</th>
+                                <th>Quantité</th>
+                                <th>Total</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="achatsBody">
+                            <tr><td colspan="6"><div class="empty-state"><div class="empty-icon">🛒</div><p>Aucun achat</p></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- VENTES -->
+            <div id="ventePage" class="page">
+                <div class="top-bar">
+                    <h1 class="page-title">💰 Ventes</h1>
+                    <button class="btn btn-primary" onclick="openModal('venteModal')">➕ Ajouter une vente</button>
+                </div>
+
+                <div class="content-card">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" class="search-input" placeholder="Rechercher...">
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Client</th>
+                                <th>Produit</th>
+                                <th>Quantité</th>
+                                <th>Total</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ventesBody">
+                            <tr><td colspan="6"><div class="empty-state"><div class="empty-icon">💰</div><p>Aucune vente</p></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- RH (Admin uniquement) -->
+            <div id="rhPage" class="page">
+                <div class="top-bar">
+                    <h1 class="page-title">👥 Ressources Humaines</h1>
+                    <button class="btn btn-primary" onclick="openModal('rhModal')">➕ Ajouter un salarié</button>
+                </div>
+
+                <div class="cards-grid" style="margin-bottom: 30px;">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-label">Total</div>
+                            <div class="stat-icon icon-secondary">👥</div>
+                        </div>
+                        <div class="stat-value" id="totalSal">0</div>
+                        <div class="stat-change">Salariés</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-label">Masse salariale</div>
+                            <div class="stat-icon icon-success">💶</div>
+                        </div>
+                        <div class="stat-value" id="masseSal">0 €</div>
+                        <div class="stat-change">Par mois</div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" class="search-input" placeholder="Rechercher un salarié...">
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Poste</th>
+                                <th>Salaire</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rhBody">
+                            <tr><td colspan="5"><div class="empty-state"><div class="empty-icon">👥</div><p>Aucun salarié</p></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODALS -->
+    <div id="stockModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Ajouter un produit</h3>
+            <form onsubmit="submitStock(event)">
+                <div class="form-group">
+                    <label class="form-label">Référence</label>
+                    <input type="text" class="form-input" id="stockRef" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nom du produit</label>
+                    <input type="text" class="form-input" id="stockNom" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Quantité</label>
+                    <input type="number" class="form-input" id="stockQte" min="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Prix (€)</label>
+                    <input type="number" class="form-input" id="stockPrix" step="0.01" min="0" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('stockModal')">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="achatModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Ajouter un achat</h3>
+            <form onsubmit="submitAchat(event)">
+                <div class="form-group">
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-input" id="achatDate" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Fournisseur</label>
+                    <input type="text" class="form-input" id="achatFour" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Produit</label>
+                    <select class="form-select" id="achatProd" required></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Quantité</label>
+                    <input type="number" class="form-input" id="achatQte" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Prix unitaire (€)</label>
+                    <input type="number" class="form-input" id="achatPrix" step="0.01" min="0" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('achatModal')">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="venteModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Ajouter une vente</h3>
+            <form onsubmit="submitVente(event)">
+                <div class="form-group">
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-input" id="venteDate" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Client</label>
+                    <input type="text" class="form-input" id="venteClient" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Produit</label>
+                    <select class="form-select" id="venteProd" required onchange="updateStock()"></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Stock disponible: <strong id="stockDispo">-</strong></label>
+                    <input type="number" class="form-input" id="venteQte" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Prix unitaire (€)</label>
+                    <input type="number" class="form-input" id="ventePrix" step="0.01" min="0" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('venteModal')">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="rhModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Ajouter un salarié</h3>
+            <form onsubmit="submitRH(event)">
+                <div class="form-group">
+                    <label class="form-label">Nom</label>
+                    <input type="text" class="form-input" id="rhNom" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Prénom</label>
+                    <input type="text" class="form-input" id="rhPrenom" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Poste</label>
+                    <input type="text" class="form-input" id="rhPoste" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Salaire mensuel (€)</label>
+                    <input type="number" class="form-input" id="rhSalaire" step="0.01" min="0" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('rhModal')">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // BASE DE DONNÉES LOCALE
+        let stocks = JSON.parse(localStorage.getItem('stocks')) || [];
+        let achats = JSON.parse(localStorage.getItem('achats')) || [];
+        let ventes = JSON.parse(localStorage.getItem('ventes')) || [];
+        let salaries = JSON.parse(localStorage.getItem('salaries')) || [];
+        let currentUser = JSON.parse(sessionStorage.getItem('currentUser')) || null;
+
+        // GESTION DE LA CONNEXION
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
+
+            // Vérification simple (à améliorer en production)
+            if ((username === 'admin' && password === 'admin123' && role === 'admin') ||
+                (username === 'employe' && password === 'emp123' && role === 'employe')) {
+                
+                currentUser = {
+                    username: username,
+                    role: role,
+                    name: role === 'admin' ? 'Administrateur' : 'Employé Commercial'
+                };
+                
+                sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('appLayout').classList.add('active');
+                
+                initializeApp();
+                showAlert('✅ Connexion réussie !');
+            } else {
+                showAlert('❌ Identifiants incorrects !');
+            }
+        }
+
+        function logout() {
+            if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+                sessionStorage.removeItem('currentUser');
+                currentUser = null;
+                location.reload();
+            }
+        }
+
+        function initializeApp() {
+            if (!currentUser) {
+                location.reload();
+                return;
+            }
+
+            // Afficher les infos utilisateur
+            document.getElementById('sidebarName').textContent = currentUser.name;
+            document.getElementById('sidebarRole').textContent = currentUser.role === 'admin' ? 'Administrateur' : 'Employé';
+            document.getElementById('topbarName').textContent = currentUser.name;
+            document.getElementById('topbarRole').textContent = currentUser.role === 'admin' ? 'Accès complet' : 'Ventes uniquement';
+
+            const sidebarAvatar = document.getElementById('sidebarAvatar');
+            sidebarAvatar.textContent = currentUser.role === 'admin' ? '👨‍💼' : '👤';
+
+            // Configurer le menu selon le rôle
+            const navMenu = document.getElementById('navMenu');
+            navMenu.innerHTML = '';
+
+            if (currentUser.role === 'admin') {
+                // Menu admin complet
+                navMenu.innerHTML = `
+                    <li class="nav-item active" onclick="showPage('homePage')">
+                        <span class="nav-icon">📊</span>
+                        <span>Overview</span>
+                    </li>
+                    <li class="nav-item" onclick="showPage('stockPage')">
+                        <span class="nav-icon">📦</span>
+                        <span>Stocks</span>
+                    </li>
+                    <li class="nav-item" onclick="showPage('achatPage')">
+                        <span class="nav-icon">🛒</span>
+                        <span>Achats</span>
+                    </li>
+                    <li class="nav-item" onclick="showPage('ventePage')">
+                        <span class="nav-icon">💰</span>
+                        <span>Ventes</span>
+                    </li>
+                    <li class="nav-item" onclick="showPage('rhPage')">
+                        <span class="nav-icon">👥</span>
+                        <span>RH</span>
+                    </li>
+                `;
+
+                // Modules pour admin
+                document.getElementById('moduleGrid').innerHTML = `
+                    <div class="module-card" onclick="showPage('stockPage')">
+                        <div class="module-icon">📦</div>
+                        <div class="module-title">Stocks</div>
+                        <div class="module-desc">Gérer les produits</div>
+                    </div>
+                    <div class="module-card" onclick="showPage('achatPage')">
+                        <div class="module-icon">🛒</div>
+                        <div class="module-title">Achats</div>
+                        <div class="module-desc">Gérer les achats</div>
+                    </div>
+                    <div class="module-card" onclick="showPage('ventePage')">
+                        <div class="module-icon">💰</div>
+                        <div class="module-title">Ventes</div>
+                        <div class="module-desc">Gérer les ventes</div>
+                    </div>
+                    <div class="module-card" onclick="showPage('rhPage')">
+                        <div class="module-icon">👥</div>
+                        <div class="module-title">RH</div>
+                        <div class="module-desc">Gérer les salariés</div>
+                    </div>
+                `;
+            } else {
+                // Menu employé (ventes uniquement)
+                navMenu.innerHTML = `
+                    <li class="nav-item" onclick="showPage('stockPage')">
+                        <span class="nav-icon">📦</span>
+                        <span>Stocks</span>
+                    </li>
+                    <li class="nav-item active" onclick="showPage('ventePage')">
+                        <span class="nav-icon">💰</span>
+                        <span>Ventes</span>
+                    </li>
+                `;
+
+                // Masquer les pages admin
+                document.getElementById('homePage').style.display = 'none';
+                document.getElementById('achatPage').style.display = 'none';
+                document.getElementById('rhPage').style.display = 'none';
+
+                // Afficher la page ventes par défaut
+                showPage('ventePage');
+
+                // Masquer le bouton d'ajout de stock pour les employés
+                const btnAddStock = document.getElementById('btnAddStock');
+                if (btnAddStock) btnAddStock.style.display = 'none';
+            }
+
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('achatDate').value = today;
+            document.getElementById('venteDate').value = today;
+            
+            renderAll();
+        }
+
+        // Vérifier si l'utilisateur est déjà connecté
+        window.onload = function() {
+            if (currentUser) {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('appLayout').classList.add('active');
+                initializeApp();
+            }
+        };
+
+        function saveData() {
+            localStorage.setItem('stocks', JSON.stringify(stocks));
+            localStorage.setItem('achats', JSON.stringify(achats));
+            localStorage.setItem('ventes', JSON.stringify(ventes));
+            localStorage.setItem('salaries', JSON.stringify(salaries));
+        }
+
+        function renderAll() {
+            renderStocks();
+            renderAchats();
+            renderVentes();
+            renderRH();
+            updateHome();
+        }
+
+        function showPage(pageId) {
+            // Vérifier les permissions
+            if (currentUser && currentUser.role === 'employe') {
+                if (pageId === 'homePage' || pageId === 'achatPage' || pageId === 'rhPage') {
+                    showAlert('⚠️ Accès non autorisé !');
+                    return;
+                }
+            }
+
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            if (event && event.target) {
+                event.target.closest('.nav-item')?.classList.add('active');
+            }
+            updateHome();
+        }
+
+        function showAlert(msg) {
+            const alert = document.getElementById('alert');
+            alert.textContent = msg;
+            alert.classList.add('show');
+            setTimeout(() => alert.classList.remove('show'), 3000);
+        }
+
+        function openModal(id) {
+            // Vérifier les permissions
+            if (currentUser && currentUser.role === 'employe') {
+                if (id === 'stockModal' || id === 'achatModal' || id === 'rhModal') {
+                    showAlert('⚠️ Accès non autorisé !');
+                    return;
+                }
+            }
+
+            if ((id === 'achatModal' || id === 'venteModal') && stocks.length === 0) {
+                showAlert('⚠️ Ajoutez d\'abord des produits au stock !');
+                return;
+            }
+            if (id === 'achatModal' || id === 'venteModal') updateSelects();
+            document.getElementById(id).classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function updateSelects() {
+            const opts = stocks.map(s => `<option value="${s.id}">${s.nom} (${s.ref})</option>`).join('');
+            document.getElementById('achatProd').innerHTML = '<option value="">Sélectionner</option>' + opts;
+            document.getElementById('venteProd').innerHTML = '<option value="">Sélectionner</option>' + opts;
+        }
+
+        function updateStock() {
+            const id = parseInt(document.getElementById('venteProd').value);
+            const s = stocks.find(x => x.id === id);
+            document.getElementById('stockDispo').textContent = s ? s.qte : '-';
+        }
+
+        function updateHome() {
+            document.getElementById('homeStock').textContent = stocks.length;
+            document.getElementById('homeVentes').textContent = ventes.reduce((sum, v) => sum + v.total, 0).toFixed(2) + ' €';
+            document.getElementById('homeAchats').textContent = achats.reduce((sum, a) => sum + a.total, 0).toFixed(2) + ' €';
+            document.getElementById('homeSalaries').textContent = salaries.length;
+        }
+
+        // STOCKS
+        function submitStock(e) {
+            e.preventDefault();
+            stocks.push({
+                id: Date.now(),
+                ref: document.getElementById('stockRef').value,
+                nom: document.getElementById('stockNom').value,
+                qte: parseInt(document.getElementById('stockQte').value),
+                prix: parseFloat(document.getElementById('stockPrix').value)
+            });
+            saveData();
+            renderStocks();
+            updateHome();
+            closeModal('stockModal');
+            e.target.reset();
+            showAlert('✅ Produit ajouté avec succès !');
+        }
+
+        function renderStocks() {
+            const tbody = document.getElementById('stocksBody');
+            if (!stocks.length) {
+                tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">📦</div><p>Aucun produit en stock</p></div></td></tr>';
+                return;
+            }
+            
+            const canDelete = currentUser && currentUser.role === 'admin';
+            
+            tbody.innerHTML = stocks.map(s => `
+                <tr>
+                    <td><strong>${s.ref}</strong></td>
+                    <td>${s.nom}</td>
+                    <td><span class="badge ${s.qte===0?'badge-danger':s.qte<10?'badge-warning':'badge-success'}">${s.qte}</span></td>
+                    <td><strong>${s.prix.toFixed(2)} €</strong></td>
+                    <td>${canDelete ? `<button class="btn btn-danger" onclick="deleteStock(${s.id})">🗑️</button>` : '-'}</td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteStock(id) {
+            if (confirm('Supprimer ce produit ?')) {
+                stocks = stocks.filter(s => s.id !== id);
+                saveData();
+                renderStocks();
+                updateHome();
+                showAlert('✅ Produit supprimé !');
+            }
+        }
+
+        // ACHATS
+        function submitAchat(e) {
+            e.preventDefault();
+            const prodId = parseInt(document.getElementById('achatProd').value);
+            const qte = parseInt(document.getElementById('achatQte').value);
+            const prix = parseFloat(document.getElementById('achatPrix').value);
+            const s = stocks.find(x => x.id === prodId);
+            
+            achats.push({
+                id: Date.now(),
+                date: document.getElementById('achatDate').value,
+                four: document.getElementById('achatFour').value,
+                prodNom: s.nom,
+                qte: qte,
+                total: qte * prix
+            });
+            
+            s.qte += qte;
+            saveData();
+            renderAchats();
+            renderStocks();
+            updateHome();
+            closeModal('achatModal');
+            e.target.reset();
+            showAlert('✅ Achat enregistré ! Stock mis à jour.');
+        }
+
+        function renderAchats() {
+            const tbody = document.getElementById('achatsBody');
+            if (!achats.length) {
+                tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">🛒</div><p>Aucun achat</p></div></td></tr>';
+                return;
+            }
+            tbody.innerHTML = achats.map(a => `
+                <tr>
+                    <td>${new Date(a.date).toLocaleDateString('fr-FR')}</td>
+                    <td>${a.four}</td>
+                    <td>${a.prodNom}</td>
+                    <td>${a.qte}</td>
+                    <td><strong>${a.total.toFixed(2)} €</strong></td>
+                    <td><button class="btn btn-danger" onclick="deleteAchat(${a.id})">🗑️</button></td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteAchat(id) {
+            if (confirm('Supprimer cet achat ?')) {
+                achats = achats.filter(a => a.id !== id);
+                saveData();
+                renderAchats();
+                updateHome();
+                showAlert('✅ Achat supprimé !');
+            }
+        }
+
+        // VENTES
+        function submitVente(e) {
+            e.preventDefault();
+            const prodId = parseInt(document.getElementById('venteProd').value);
+            const qte = parseInt(document.getElementById('venteQte').value);
+            const prix = parseFloat(document.getElementById('ventePrix').value);
+            const s = stocks.find(x => x.id === prodId);
+            
+            if (s.qte < qte) {
+                showAlert('⚠️ Stock insuffisant ! Disponible: ' + s.qte);
+                return;
+            }
+            
+            ventes.push({
+                id: Date.now(),
+                date: document.getElementById('venteDate').value,
+                client: document.getElementById('venteClient').value,
+                prodNom: s.nom,
+                qte: qte,
+                total: qte * prix,
+                vendeur: currentUser.name
+            });
+            
+            s.qte -= qte;
+            saveData();
+            renderVentes();
+            renderStocks();
+            updateHome();
+            closeModal('venteModal');
+            e.target.reset();
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('venteDate').value = today;
+            showAlert('✅ Vente enregistrée ! Stock mis à jour.');
+        }
+
+        function renderVentes() {
+            const tbody = document.getElementById('ventesBody');
+            if (!ventes.length) {
+                tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">💰</div><p>Aucune vente</p></div></td></tr>';
+                return;
+            }
+            
+            const canDelete = currentUser && currentUser.role === 'admin';
+            
+            tbody.innerHTML = ventes.map(v => `
+                <tr>
+                    <td>${new Date(v.date).toLocaleDateString('fr-FR')}</td>
+                    <td>${v.client}</td>
+                    <td>${v.prodNom}</td>
+                    <td>${v.qte}</td>
+                    <td><strong>${v.total.toFixed(2)} €</strong></td>
+                    <td>${canDelete ? `<button class="btn btn-danger" onclick="deleteVente(${v.id})">🗑️</button>` : '-'}</td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteVente(id) {
+            if (confirm('Supprimer cette vente ?')) {
+                ventes = ventes.filter(v => v.id !== id);
+                saveData();
+                renderVentes();
+                updateHome();
+                showAlert('✅ Vente supprimée !');
+            }
+        }
+
+        // RH
+        function submitRH(e) {
+            e.preventDefault();
+            salaries.push({
+                id: Date.now(),
+                nom: document.getElementById('rhNom').value,
+                prenom: document.getElementById('rhPrenom').value,
+                poste: document.getElementById('rhPoste').value,
+                salaire: parseFloat(document.getElementById('rhSalaire').value)
+            });
+            saveData();
+            renderRH();
+            updateHome();
+            closeModal('rhModal');
+            e.target.reset();
+            showAlert('✅ Salarié ajouté avec succès !');
+        }
+
+        function renderRH() {
+            const tbody = document.getElementById('rhBody');
+            if (!salaries.length) {
+                tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">👥</div><p>Aucun salarié</p></div></td></tr>';
+                document.getElementById('totalSal').textContent = 0;
+                document.getElementById('masseSal').textContent = '0 €';
+                return;
+            }
+            tbody.innerHTML = salaries.map(r => `
+                <tr>
+                    <td>${r.nom}</td>
+                    <td>${r.prenom}</td>
+                    <td>${r.poste}</td>
+                    <td><strong>${r.salaire.toFixed(2)} €</strong></td>
+                    <td><button class="btn btn-danger" onclick="deleteRH(${r.id})">🗑️</button></td>
+                </tr>
+            `).join('');
+            
+            const total = salaries.reduce((sum, r) => sum + r.salaire, 0);
+            document.getElementById('totalSal').textContent = salaries.length;
+            document.getElementById('masseSal').textContent = total.toFixed(2) + ' €';
+        }
+
+        function deleteRH(id) {
+            if (confirm('Supprimer ce salarié ?')) {
+                salaries = salaries.filter(r => r.id !== id);
+                saveData();
+                renderRH();
+                updateHome();
+                showAlert('✅ Salarié supprimé !');
+            }
+        }
+    </script>
+</body>
+</html>
